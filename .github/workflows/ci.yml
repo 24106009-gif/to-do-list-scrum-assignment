@@ -1,0 +1,26 @@
+name: To-Do List CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate project files
+        run: |
+          test -f index.html
+          test -f styles.css
+          test -f script.js
+          test -f .github/workflows/ci.yml
+          grep -q "<title>Daymark | To-Do List</title>" index.html
+          echo "To-Do List project files validated successfully."
